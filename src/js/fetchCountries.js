@@ -1,18 +1,17 @@
 
-// const URL = 'https://restcountries.com/v2/name/'
-
 const searchParams = new URLSearchParams({
     fields: 'name,capital,population,flags,languages,',
 });
+const URL = 'https://restcountries.com/v3.1/name/'
 
-// export const fetchCountries = (name) => {
 
-//     return fetch(`${URL}${name}${searchParams}`)
-//      .then(response => {
-//          return response.json()
-//      }).then(country => {
-//          console.log(country)
-//      }).catch(error => {
-//          console.log(error)
-//      })
-//  }
+export const fetchCountries = (name) => {
+
+    return fetch(`${URL}${name}?${searchParams}`)
+     .then(response => {
+        if(response.status === 404){
+            throw new Error(response.status);
+        }
+         return response.json()
+     })
+ }

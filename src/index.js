@@ -1,12 +1,9 @@
 import './css/styles.css';
-// import { fetchCountries } from './js/fetchCountries';
 import debounce from 'lodash.debounce';
+import {fetchCountries} from './js/fetchCountries'
+import Notiflix from 'notiflix';
 
-const searchParams = new URLSearchParams({
-    fields: 'name,capital,population,flags,languages,',
-});
 
-const URL = 'https://restcountries.com/v3.1/name/'
 
 const DEBOUNCE_DELAY = 300;
 
@@ -18,28 +15,13 @@ const refs = {
 
 }
 
+
 refs.countryList.style.visibility = 'hidden'
 refs.countryInfo.style.visibility = 'hidden'
 
 
 
-const fetchCountries = (name) => {
-
-        return fetch(`${URL}${name}?${searchParams}`)
-         .then(response => {
-            if(response.status === 404){
-                throw new Error(response.status);
-            }
-             return response.json()
-             .then(data => {console.log(data)})
-             .catch(error => {console.log(error)})
-         })
-     }
-
-
-     refs.inputEl.addEventListener('input' , debounce(onGetCountries,DEBOUNCE_DELAY));
-
-
+refs.inputEl.addEventListener('input' , debounce(onGetCountries,DEBOUNCE_DELAY));
 
      function onGetCountries (e) {
 
@@ -50,9 +32,67 @@ const fetchCountries = (name) => {
         refs.countryList.style.visibility = 'hidden'
         refs.countryInfo.style.visibility = 'hidden'
         refs.countryList.innerHTML = '';
-        crefs.countryInfo.innerHTML = '';
+        refs.countryInfo.innerHTML = '';
         return;
        }
 
        fetchCountries(searchCountries)
+       .then(res => {
+        if(res.length > 10){
+            Notiflix.info.failure('Too many matches found. Please, enter a more specific name.')
+            return;
+        }
+
+        render(res);
+       })
+       .catch(error =>{
+        refs.countryList.innerHTML = '';
+        refs.countryInfo.innerHTML = '';
+        Notiflix.Notify.failure('Oops, there is no country with that name');
+        return
+       })
      }
+
+function render(res){
+const letters = res.length
+if(letters ===1){
+    refs.countryList.innerHTML = '';
+    refs.countryList.style.visibility = 'hidden'
+    refs.countryInfo.style.visibility = 'visible'
+    countryInfoMarkup(res)
+}
+if(letters > 1 && letters <= 10){
+    refs.countryInfo.innerHTML = '';
+    refs.countryList.style.visibility = 'visible'
+    refs.countryInfo.style.visibility = 'hidden'
+    countryListMarkup(res)
+}
+}
+
+     function countryListMarkup(res) {
+        const listCountry = res.map((({name, flags}) => {
+            return `<li>
+            <img src="${flags.svg}" alt="${name}" width="60" height="auto">
+            <span class='country'>${name.official}</span>
+          </li>`
+        })).join('');
+        refs.countryList.innerHTML = listCountry;
+        return listCountry
+     }
+
+     function countryInfoMarkup(res) {
+        const info = res.map((({name,capital,population,flags,languages}) => {
+            languages = Object.values(languages).join(", ");
+            return `
+            <img class="flag" src="${flags.svg}" alt="${name}"
+            <p><span class="name">${name.official}</span></p>
+            <p class="label">capital: <span class="info">${capital}</span></p>
+            <p class="label">population: <span class="info">${population}</span></p>
+            <p class="label">languages: <span class="info">${languages}</span></p>  
+            `
+        })).join('');
+        refs.countryInfo.innerHTML = info;
+        return info
+     }
+
+
