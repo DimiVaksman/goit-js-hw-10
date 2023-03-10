@@ -1,7 +1,7 @@
 import './css/styles.css';
 import debounce from 'lodash.debounce';
 import {fetchCountries} from './js/fetchCountries'
-import Notiflix from 'notiflix';
+import {Notify} from 'notiflix';
 
 
 
@@ -39,7 +39,7 @@ refs.inputEl.addEventListener('input' , debounce(onGetCountries,DEBOUNCE_DELAY))
        fetchCountries(searchCountries)
        .then(res => {
         if(res.length > 10){
-            Notiflix.info.failure('Too many matches found. Please, enter a more specific name.')
+            Notify.info.failure('Too many matches found. Please, enter a more specific name.')
             return;
         }
 
@@ -48,7 +48,7 @@ refs.inputEl.addEventListener('input' , debounce(onGetCountries,DEBOUNCE_DELAY))
        .catch(error =>{
         refs.countryList.innerHTML = '';
         refs.countryInfo.innerHTML = '';
-        Notiflix.Notify.failure('Oops, there is no country with that name');
+        Notify.failure('Oops, there is no country with that name');
         return
        })
      }
