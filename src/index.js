@@ -39,7 +39,7 @@ refs.inputEl.addEventListener('input' , debounce(onGetCountries,DEBOUNCE_DELAY))
        fetchCountries(searchCountries)
        .then(res => {
         if(res.length > 10){
-            Notify.info.failure('Too many matches found. Please, enter a more specific name.')
+            Notify.info('Too many matches found. Please, enter a more specific name.')
             return;
         }
 

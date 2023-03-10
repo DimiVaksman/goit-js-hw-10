@@ -35,7 +35,28 @@ input{
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
 }
+
+.country-list{
+  border-radius: 39px;
+  border-top: 4px dashed #54C4D0;
+  border-right: 4px dashed #54C4D0;
+  border-left: 4px dashed #54C4D0;
+  border-bottom: 4px dashed #54C4D0;
+  padding: 40px;
+  background: rgb(20,249,221);
+  background: linear-gradient(90deg, rgba(20,249,221,1) 0%, rgba(15,166,254,1) 37%, rgba(11,244,236,1) 100%);
+}
+.country-info{
+  border-radius: 39px;
+  border-top: 4px dashed #54C4D0;
+  border-right: 4px dashed #54C4D0;
+  border-left: 4px dashed #54C4D0;
+  border-bottom: 4px dashed #54C4D0;
+  padding: 40px;
+  background: rgb(20,249,221);
+background: linear-gradient(90deg, rgba(20,249,221,1) 0%, rgba(15,166,254,1) 37%, rgba(11,244,236,1) 100%);}
 
 .flag{
   width: 80px;
@@ -45,17 +66,27 @@ margin-right: 20px;
 
 .country{
   font-size: 20px;
+  color: #fafafa;
   font-weight: bold;
 }
 
 .name{
   font-size: 40px;
+  color: #fafafa;
 }
 
 .info{
   font-size: 24px;
+  color: #fafafa;
 }
 
 .label{
   font-size: 28px;
+  color: #fafafa;
+}
+
+
+body{
+
+background: linear-gradient(0deg, rgba(254,240,254,0.9262298669467787) 2%, rgba(84,196,208,1) 99%);
 }
